@@ -1,3 +1,47 @@
+=== FILE: backend/src/utils/scoreCalculator.ts ===
+export function calculateScore(materials: string, originFabric: string, originManufacturing: string) {
+  let score = 50; // Base score
+
+  const materialsLower = materials.toLowerCase();
+  const originFabricLower = originFabric.toLowerCase();
+  const originManufacturingLower = originManufacturing.toLowerCase();
+
+  // Règles sur les matières
+  if (materialsLower.includes('recycl') || materialsLower.includes('bio')) {
+    score += 25;
+  }
+  if ((materialsLower.includes('synthétique') || materialsLower.includes('polyester')) && !materialsLower.includes('recycl')) {
+    score -= 20;
+  }
+
+  // Règles sur l'origine (liste simplifiée pour l'exemple)
+  const europeCountries = ['france', 'portugal', 'espagne', 'italie', 'allemagne', 'belgique'];
+  
+  const isFabricEurope = europeCountries.some(c => originFabricLower.includes(c));
+  const isManufacturingEurope = europeCountries.some(c => originManufacturingLower.includes(c));
+
+  if (isFabricEurope) score += 15;
+  else score -= 10;
+
+  if (isManufacturingEurope) score += 15;
+  else score -= 10;
+
+  // Limiter le score entre 0 et 100
+  score = Math.max(0, Math.min(100, score));
+
+  // Attribution de la note (Grade)
+  let grade = 'C';
+  if (score >= 85) grade = 'A';
+  else if (score >= 70) grade = 'B';
+  else if (score >= 50) grade = 'C';
+  else if (score >= 30) grade = 'D';
+  else grade = 'E';
+
+  return { percentage: score, grade };
+}
+
+
+=== FILE: backend/src/index.ts ===
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
@@ -43,7 +87,7 @@ app.post('/api/products', async (req, res) => {
     });
 
     // Génération de l'URL finale (QR Code URL) avec l'adresse IP du téléphone
-    const clientUrl = req.body.clientUrl || 'hhttps://hackaton-ramify-1.onrender.com';
+    const clientUrl = req.body.clientUrl || 'http://localhost:5173';
     const qrCodeUrl = `${clientUrl}/product/${newProduct.id}`;
     
     // Génération de l'image QR Code en Data URI (Base64)
@@ -99,3 +143,5 @@ app.get('/api/products/:id', async (req, res) => {
 app.listen(port, () => {
   console.log(`Serveur démarré sur le port ${port}`);
 });
+
+
