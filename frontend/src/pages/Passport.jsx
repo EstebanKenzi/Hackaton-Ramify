@@ -15,7 +15,7 @@ export default function Passport() {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const res = await fetch(`http://${window.location.hostname}:3001/api/products/${id}`);
+        const res = await fetch(`https://hackaton-ramify-1.onrender.com`);
         if (!res.ok) throw new Error('Produit non trouvé');
         const data = await res.json();
         setProduct(data);

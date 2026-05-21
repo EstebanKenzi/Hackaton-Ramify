@@ -21,7 +21,7 @@ export default function Dashboard() {
     };
 
     try {
-      const res = await fetch(`http://${window.location.hostname}:3001/api/products`, {
+      const res = await fetch(`https://hackaton-ramify-1.onrender.com`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
