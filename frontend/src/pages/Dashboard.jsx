@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Leaf, ShieldCheck, MapPin, CheckCircle } from 'lucide-react';
+import { API_URL } from '../config/api';
 
 export default function Dashboard() {
   const [loading, setLoading] = useState(false);
@@ -21,7 +22,7 @@ export default function Dashboard() {
     };
 
     try {
-      const res = await fetch(`https://hackaton-ramify-1.onrender.com`, {
+      const res = await fetch(`${API_URL}/api/products`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)

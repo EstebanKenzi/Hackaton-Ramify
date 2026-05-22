@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft, Share2, Recycle, ShieldCheck, Globe, Scissors, Store, Sparkles, AlertCircle } from 'lucide-react';
+import { API_URL } from '../config/api';
 
 export default function Passport() {
   const { id } = useParams();
@@ -15,7 +16,7 @@ export default function Passport() {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const res = await fetch(`https://hackaton-ramify-1.onrender.com/api/products/${id}`);
+        const res = await fetch(`${API_URL}/api/products/${id}`);
         if (!res.ok) throw new Error('Produit non trouvé');
         const data = await res.json();
         setProduct(data);
