@@ -15,6 +15,10 @@ const port = process.env.PORT || 3001;
 app.use(cors());
 app.use(express.json());
 
+app.get('/', (req, res) => {
+  res.json({ status: 'ok', message: 'TraceLoop API is running' });
+});
+
 app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', message: 'TraceLoop API is running' });
 });
